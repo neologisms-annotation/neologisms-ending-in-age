@@ -1,5 +1,5 @@
 # Neologisms ending in -age in contemporary French
-This repository stores scripts and annotated lists of neologisms and verbs used in a study in contemporary French of neologisms ending in -age.
+This repository stores scripts and annotated lists of neologisms and verbs used in a study of neologisms ending in -age in contemporary French.
 
 This repository provides
 - a Jupyter Notebook script in French that allowed the extraction of the candidate neologisms from the corpus frWaC (frwac_extraction.ipynb)
