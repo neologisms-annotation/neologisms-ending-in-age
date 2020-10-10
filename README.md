@@ -3,7 +3,7 @@ This repository stores scripts and annotated lists of neologisms and verbs used 
 
 This repository provides:
 - a Python script that was used to retrieve the candidate neologisms from the corpus frWaC (frwac_extraction.pip),
-- a table obtained through manual annotation of the 181 different final senses of novel words ending in -age (n_age_sample.txt),
+- a table obtained through manual annotation of the 182 different final senses of novel words ending in -age (n_age_sample.txt),
 - a table obtained through manual annotation of the 156 different verbs from which the novel words are derived (v_age_sample.txt),
 - a statistical analysis R script of the two tables (age_analysis_script.R).
 
