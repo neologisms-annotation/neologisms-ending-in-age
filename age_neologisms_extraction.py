@@ -2,11 +2,11 @@
 ######## Retrieval of candidate neologisms ending with -age from frWaC ########
 ###############################################################################
 
-## Before to run the script, we need a list extracted from NoSketchEngine : https://www.clarin.si/noske/run.cgi/first_form?corpname=frwac;align=
+## Before running the script, we need a list extracted from NoSketchEngine : https://www.clarin.si/noske/run.cgi/first_form?corpname=frwac;align=
 ## We select 'CQL' and request [word=".{3,}ages?"]
-## We want at least three characters (.{3,}) before -age and singular or plural words ending in -age singular (ages?).
-## With the list generated we select 'Frequency > Node forms' at the left tab and click 'Save' at the top, with '100000' as the maximum of lines.
-## We then download the results all the script is based on this file, named here 'frwac_age.txt'.
+## We want at least three characters (.{3,}) before -age and singular as well as plural words ending in -age (ages?).
+## With the list that is generated we select 'Frequency > Node forms' at the left tab and click 'Save' at the top, with '100000' as the maximum of lines.
+## We then download the results. All the script is based on this file, named here 'frwac_age.txt'.
 
 ## We also need to download the dictionary lists :
     # 'Lexique.382.csv' (from http://www.lexique.org)
@@ -27,7 +27,7 @@ with open('frwac_age.txt', encoding='utf-8') as res_frwac:
         res_search = re.search('([^\t]+)\t([0-9]+)', line)
         if res_search:
             word, freq = res_search.groups()
-            freq = int(freq) # we convert the frequency from string to integers
+            freq = int(freq) # we convert the frequency from string to integer
             word = word.lower() # we lowercase the words to reduce variation
             if re.search(r"\W|[0-9]|([a-zA-Z])\1{2}|http|Message|Page|Image", word):
                 # this regex eliminate all -age ending entries that are clearly not deverbal words (URL, 3 times the same letter, etc.)
@@ -36,8 +36,8 @@ with open('frwac_age.txt', encoding='utf-8') as res_frwac:
                 word = word[:-1]
             words_frwac[word] += freq
 
-## We thus obtain data with -age ending words and their frequencies
-print("The first list of -age ending words contain " + str(len(words_frwac.keys())) + " entries")
+## We thus obtain data with words ending in -age and their frequencies
+print("The first list of words ending in -age contains " + str(len(words_frwac.keys())) + " entries")
 
 #### Comparison with Lexique.org and Lefff
 #####################################
@@ -63,7 +63,7 @@ set_words_frwac = set(words_frwac.keys())
 diff = set_words_frwac.difference(set_words_lexique)
 print("There is {} forms ending in -age not present in Lexique.org".format(len(diff)))
 
-# We do with the file 'lefff-3.4.elex2 the same as we did for 'Lexique382.csv'
+# We do the same with the file 'lefff-3.4.elex2 as we did for 'Lexique382.csv'
 set_words_lefff = set()
 words_age_lefff = set()
 
@@ -79,10 +79,10 @@ with open('lefff-3.4.elex') as lexique:
 print("{} different forms in Lefff and {} ending in -age".format(len(set_words_lefff), len(words_age_lefff)))
 
 diff_lefff = set_words_frwac.difference(set_words_lefff)
-print("il y a {} formes en 'age' not present in Lefff".format(len(diff_lefff)))
+print("There is {} forms ending in -age not present in Lefff".format(len(diff_lefff)))
 
 diff_lefff_lexique = diff.difference(set_words_lefff)
-print("il y a {} formes en 'age' not present in Lefff et and Lexique".format(len(diff_lefff_lexique)))
+print("There is {} forms ending in -age absent from both Lefff and Lexique.org".format(len(diff_lefff_lexique)))
 
 new_words = sorted(diff, key=lambda x: words_frwac[x], reverse=True)
 new_words_counts = [words_frwac[w] for w in new_words]
@@ -101,7 +101,7 @@ q = N // k  # division rounded of to 0
 r = N % k   # gives the remainder of the rounded of to 0 division
 
 sublists = [new_words[i*q:(i+1)*q] for i in range(k)]  # splits the q*k first words in k sublists
-sublists[-1] += new_words[-r:]  # add the remainder to the last sublist
+sublists[-1] += new_words[-r:]  # adds the remainder to the last sublist
 
 from random import seed, sample
 seed(0)
