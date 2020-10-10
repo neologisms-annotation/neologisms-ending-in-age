@@ -2,7 +2,7 @@
 # Analysis script for the novel nominalization ending with the suffix -age
 ########################################################################
 
-# Setting the workind directory
+# Setting the working directory
 ################################################
 getwd()
 setwd("C:/Users/...")
@@ -64,12 +64,12 @@ summary(DataV)
 # Grouping data by the studied factors, ie. patientitvity (pat) and telicity (v_tel)
 data <- DataV %>% group_by(pat, v_tel, act_res, .drop = FALSE) %>% summarize(n=n()) %>% mutate(prop=(n/sum(n)))
 
-# Graph of the proportion of 'action' / 'result' polysemy by factor
+# Figure of the proportion of 'action' / 'result' polysemy by factor
 ggplot(data, aes(x=pat:v_tel, y=prop, fill = act_res, group = act_res)) + geom_bar(position ="stack", stat="identity") +
   geom_text(aes(label=n), color="black", size = 3.5, hjust = 0.5, vjust = -0.3, position = "stack") +
-  ylab(label = "Taux de polysémie 'action' / 'résultat'") +
-  scale_x_discrete(labels = c("Atélique sans patient", "Télique sans patient", "Atélique avec patient", "Télique avec patient")) +
-  scale_fill_manual(name="Polysémie 'action' / 'résultat'", labels = c("Non", "Oui"), values = c("#F8766D","#00BFC4")) +
+  ylab(label = "Taux de polysÃ©mie 'action' / 'rÃ©sultat'") +
+  scale_x_discrete(labels = c("AtÃ©lique sans patient", "TÃ©lique sans patient", "AtÃ©lique avec patient", "TÃ©lique avec patient")) +
+  scale_fill_manual(name="PolysÃ©mie 'action' / 'rÃ©sultat'", labels = c("Non", "Oui"), values = c("#F8766D","#00BFC4")) +
   theme_minimal() + theme(axis.title.x=element_blank(), axis.text.x = element_text(vjust= 0.3), legend.position="bottom",
                           legend.direction = "horizontal", strip.background = element_blank(), strip.text.x = element_blank())
 
@@ -83,11 +83,11 @@ table(DataV$v_asp)
 # Distribution of verbs per number of arguments
 table(DataV$v_nb_arg)
 
-# Distribution of the 182 senses by ontological category
+# Distribution of the 181 senses by ontological category
 table(Data$n_onto)
-# Distribution of the 182 senses by aspect
+# Distribution of the 181 senses by aspect
 table(Data$n_rel, Data$n_onto)
-# Distribution of the 182 senses by the role of their complements
+# Distribution of the 181 senses by the role of their complements
 table(Data$n_rol_cplt2, Data$n_rol_cplt3)
 
 df_asp <- subset(Data, n_onto != "cog" & n_onto != "obj" & herit_asp != "na" & n_polys == "non")
@@ -101,14 +101,14 @@ table(df_asp$v_nb_arg, df_asp$n_nb_arg)
 
 # Data chi-squared analysis
 ################################################
-# Comparison of the transitivity data with the repartition of the verbs of "Les verbes français" (Dubois & Dubois-Charlier 1997)
+# Comparison of the transitivity data with the repartition of the verbs of "Les verbes franÃ§ais" (Dubois & Dubois-Charlier 1997)
 df_transitivity <- data.frame("intransitif" = c(39,6029), "transitif" = c(117,19580))
 chisq.test(df_transitivity, correct = FALSE)
 
 DataEvent <- subset(Data, n_onto != "cog" & n_onto != "obj")
 summary(DataEvent) # The summary indicates 8 cases of non-inheritance for 156 cases of inheritance
 # Comparison of the inheritance of the aspect between the verb and the noun
-df_herit <- data.frame("décalage" = c(8,12), "héritage" = c(156,44))
+df_herit <- data.frame("dÃ©calage" = c(8,12), "hÃ©ritage" = c(156,44))
 chisq.test(df_herit, correct = FALSE)
 
 
@@ -133,10 +133,10 @@ summary(glm_act_res_pat_vtel4)
 lsmeans(glm_act_res_pat_vtel4, pairwise~pat|v_tel, adjust="Tukey") # effect of patientivity inside both modalities of telicity
 lsmeans(glm_act_res_pat_vtel4, pairwise~v_tel|pat, adjust="Tukey") # effect of telicity inside both modalities of patientivity
 
-# The following fuction allow to transform the estimates of the logistic regression from logit to probabilities
+# The following function allows for the transformation from logit to probabilities of the estimates given by the logistic regression
 logit2prob <- function(logit){odds <- exp(logit)
 prob <- odds / (1 + odds)
 return(prob)}
 
-# Transformation of the results using the logit2prob fuction with the vector of estimate per category c(non_pa:n_tel, pa:n_tel, non_pa:tel, pa:n_tel)
+# Transformation of the results using the logit2prob function with the vector of estimate per category c(non_pa:n_tel, pa:n_tel, non_pa:tel, pa:n_tel)
 round(logit2prob(c(-1.7707, -1.7707-15.7954, -1.7707-1.0019, -1.7707-1.0019-15.7954+17.4440)), 8)
